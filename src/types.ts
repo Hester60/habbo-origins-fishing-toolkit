@@ -33,6 +33,9 @@ export type Events = {
   USER_DISCONNECTED: [userDisconnected: Readonly<RoomUser>, users: ReadonlyArray<RoomUser>];
   STATUS_REMOVED: [statusRemoved: Readonly<Status>, status: ReadonlyArray<Status>];
   FISH_CAUGHT_MSG: [userId: number, chatMsg: string, iconID: number];
+  GOLDEN_FISHING_STARTED: [fishId: number, seconds: number];
+  GOLDEN_FISHING_STATUS: [balance: number, barProgress: number, seconds: number];
+  GOLDEN_FISHING_ENDED: [];
 };
 
 export type Hotels = 'hhous' | 'hhoes' | 'hhobr';

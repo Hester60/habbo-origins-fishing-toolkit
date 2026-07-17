@@ -14,6 +14,9 @@ import EventBus from './event-bus.js';
 export default class HabboPlayerManager {
   private readonly packetHandlers: Map<number, (body: Buffer) => void> = new Map([
     [IncomingHeaders.FISHING_CHAT, (body: Buffer) => this.onFishingChat(body)],
+    [IncomingHeaders.GOLDEN_START, (body: Buffer) => this.onGoldenGameStart(body)],
+    [IncomingHeaders.GOLDEN_STATUS, (body: Buffer) => this.onGoldenGameStatus(body)],
+    [IncomingHeaders.GOLDEN_END, () => this.onGoldenGameEnded()],
   ]);
 
   constructor(
@@ -37,6 +40,10 @@ export default class HabboPlayerManager {
     this.sendGetFishingStatsPacket();
   }
 
+  public submitGoldenGameDirection(direction: 'L' | 'R'): void {
+    this.sendFHMPacket(direction);
+  }
+
   // Packets
 
   private sendMovePacket(x: number, y: number): void {
@@ -51,14 +58,40 @@ export default class HabboPlayerManager {
     this.habboConnection.send(new PacketWriter(OutgoingHeaders.GET_FISHING_STATS).build());
   }
 
+  private sendFHMPacket(direction: 'L' | 'R'): void {
+    const packet: Buffer = new PacketWriter(OutgoingHeaders.FHM).str(direction).build();
+    this.habboConnection.send(packet);
+  }
+
   // Listeners
 
-  private onFishingChat(body: Buffer) {
+  private onFishingChat(body: Buffer): void {
     const packetReader: PacketReader = new PacketReader(body);
     const userId: number = packetReader.int();
     const chatMsg: string = packetReader.str();
     const iconID: number = packetReader.int();
 
     this.eventBus.emit('FISH_CAUGHT_MSG', userId, chatMsg, iconID);
+  }
+
+  private onGoldenGameStart(body: Buffer): void {
+    const packetReader: PacketReader = new PacketReader(body);
+    const fishId: number = packetReader.int();
+    const seconds: number = packetReader.int();
+
+    this.eventBus.emit('GOLDEN_FISHING_STARTED', fishId, seconds);
+  }
+
+  private onGoldenGameStatus(body: Buffer): void {
+    const packetReader: PacketReader = new PacketReader(body);
+    const balance: number = packetReader.int();
+    const barProgress: number = packetReader.int();
+    const seconds: number = packetReader.int();
+
+    this.eventBus.emit('GOLDEN_FISHING_STATUS', balance, barProgress, seconds);
+  }
+
+  private onGoldenGameEnded(): void {
+    this.eventBus.emit('GOLDEN_FISHING_ENDED');
   }
 }

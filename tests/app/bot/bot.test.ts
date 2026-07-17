@@ -39,6 +39,7 @@ describe('Bot', () => {
     ['move()', (bot) => bot.move(10, 5)],
     ['startFishing()', (bot) => bot.startFishing(1005)],
     ['requestFishingStats()', (bot) => bot.requestFishingStats()],
+    ['submitGoldenGameDirection()', (bot) => bot.submitGoldenGameDirection('L')],
   ];
 
   it.each(noOpMethods)('%s is a silent no-op before connect() has run', (_name, action) => {

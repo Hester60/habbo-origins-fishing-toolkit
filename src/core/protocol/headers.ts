@@ -17,6 +17,9 @@ export const IncomingHeaders = {
   USER_LOGGED_OUT: 29,
   FISHING_CHAT: 1101,
   TOKENS_REFRESH: 1102,
+  GOLDEN_START: 1107,
+  GOLDEN_STATUS: 1108,
+  GOLDEN_END: 1109,
   // Identified but not used for the moment
   FLAT_INFO: 54,
   AVAILABLE_INFO_PROPS: 142,
@@ -35,9 +38,6 @@ export const IncomingHeaders = {
   STUFF_DATA_UPDATE: 88,
   REMOVE_BUDDY: 138,
   CONSOLE_UPDATE: 13,
-  GOLDEN_START: 1107,
-  GOLDEN_STATUS: 1108,
-  GOLDEN_END: 1109,
 } as const;
 
 export const OutgoingHeaders = {
@@ -54,5 +54,6 @@ export const OutgoingHeaders = {
   GET_INFO: 7,
   MOVE: 1269,
   START_FISHING: 1100,
+  FHM: 1101,
   GET_FISHING_STATS: 1106, // Response not handled for the moment
 } as const;

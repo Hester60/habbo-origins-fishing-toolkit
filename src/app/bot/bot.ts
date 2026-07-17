@@ -154,6 +154,12 @@ export default class Bot {
     return this.usersManager?.getMoveAction(userId);
   }
 
+  public submitGoldenGameDirection(direction: 'L' | 'R'): void {
+    if (this.isRoomEntered()) {
+      return this.playerManager?.submitGoldenGameDirection(direction);
+    }
+  }
+
   private enablePacketLogging(): void {
     if (this.connection) {
       new PacketLogger(this.connection);
