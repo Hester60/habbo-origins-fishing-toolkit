@@ -42,9 +42,9 @@ export const IncomingHeaders = {
 
 export const OutgoingHeaders = {
   LOGIN: 4,
-  GAMEDATA: 5,
-  RELEASE_TOKEN: 6,
-  INTERSTITIAL_SHOWN: 181,
+  VERSIONCHECK: 5,
+  UNIQUEID: 6,
+  GET_SESSION_PARAMETERS: 181,
   GENERATE_KEY: 202,
   CLIENT_INIT: 206,
   PONG: 196,

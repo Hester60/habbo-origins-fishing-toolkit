@@ -28,8 +28,8 @@ export function makeDeps(socket: FakeSocket) {
     socket,
     email: 'bot@example.com',
     password: 'hunter2',
-    gamedataPayload: 'HRL',
-    releaseToken: 'PRODUCTION-000',
+    versionCheckPayload: 'HRL',
+    uniqueId: 'PRODUCTION-000',
   };
 }
 

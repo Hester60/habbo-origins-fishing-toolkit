@@ -65,25 +65,25 @@ export default class HabboHandShake {
     this.habboConnection.send(packet);
   }
 
-  private sendGameDataPacket(): void {
-    const gameDataPacket: Buffer = new PacketWriter(OutgoingHeaders.GAMEDATA)
-      .raw(this.habboConnection.deps.gamedataPayload)
+  private sendVersionCheckPacket(): void {
+    const versionCheckPacket: Buffer = new PacketWriter(OutgoingHeaders.VERSIONCHECK)
+      .raw(this.habboConnection.deps.versionCheckPayload)
       .build();
-    this.habboConnection.send(gameDataPacket);
+    this.habboConnection.send(versionCheckPacket);
   }
 
-  private sendReleaseTokenPacket(): void {
-    const releasePacket: Buffer = new PacketWriter(OutgoingHeaders.RELEASE_TOKEN)
-      .str(this.habboConnection.deps.releaseToken)
+  private sendUniqueIdPacket(): void {
+    const uniqueIdPacket: Buffer = new PacketWriter(OutgoingHeaders.UNIQUEID)
+      .str(this.habboConnection.deps.uniqueId)
       .build();
-    this.habboConnection.send(releasePacket);
+    this.habboConnection.send(uniqueIdPacket);
   }
 
-  private sendInterstitialShownPacket(): void {
-    const interstitialShownPacket: Buffer = new PacketWriter(
-      OutgoingHeaders.INTERSTITIAL_SHOWN,
+  private sendGetSessionParametersPacket(): void {
+    const getSessionParametersPacket: Buffer = new PacketWriter(
+      OutgoingHeaders.GET_SESSION_PARAMETERS,
     ).build();
-    this.habboConnection.send(interstitialShownPacket);
+    this.habboConnection.send(getSessionParametersPacket);
   }
 
   private sendLoginPacket(otp: string = ''): void {
@@ -132,9 +132,9 @@ export default class HabboHandShake {
 
     this.habboConnection.switchToEncrypted(keys);
 
-    this.sendGameDataPacket();
-    this.sendReleaseTokenPacket();
-    this.sendInterstitialShownPacket();
+    this.sendVersionCheckPacket();
+    this.sendUniqueIdPacket();
+    this.sendGetSessionParametersPacket();
     this.sendLoginPacket();
   }
 }

@@ -1,10 +1,10 @@
 import { Events, FishingAction, HostConfig, Hotels, Me, MoveAction } from '../../types.js';
 import Socket from '../../core/interfaces/socket.js';
 import EventBus from '../handlers/event-bus.js';
-import generateReleaseToken from '../../core/protocol/generate-release-token.js';
+import generateUniqueId from '../../core/protocol/generate-unique-id.js';
 import dial from '../../core/net/dial.js';
 import HabboConnection from '../../core/connection/habbo-connection.js';
-import GamedataPayloadBuilder from '../../core/protocol/gamedata-payload-builder.js';
+import VersionCheckPayloadBuilder from '../../core/protocol/version-check-payload-builder.js';
 import ClientVersionProvider from '../../core/protocol/client-version-provider.js';
 import { HOSTS_CONFIG } from '../../core/protocol/hosts-config.js';
 import HabboHandShake from '../handlers/habbo-handshake.js';
@@ -65,11 +65,11 @@ export default class Bot {
     }
 
     const version: number = await ClientVersionProvider.fetchClientVersion();
-    const gamedataPayload: string = GamedataPayloadBuilder.build(
-      this.hostConfig.gamedataUrl,
+    const versionCheckPayload: string = VersionCheckPayloadBuilder.build(
+      this.hostConfig.extVarsUrl,
       version,
     ).toString('latin1');
-    const releaseToken: string = generateReleaseToken();
+    const uniqueId: string = generateUniqueId();
 
     this.socket = await dial(this.hostConfig.host, this.hostConfig.port);
 
@@ -77,8 +77,8 @@ export default class Bot {
       socket: this.socket,
       email: this.email,
       password: this.password,
-      gamedataPayload: gamedataPayload,
-      releaseToken,
+      versionCheckPayload,
+      uniqueId,
     });
 
     if (this.logPackets) {

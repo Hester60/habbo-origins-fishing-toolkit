@@ -13,8 +13,8 @@ type ConnectionDeps = {
   diffieHellman?: DiffieHellman;
   email: string;
   password: string;
-  gamedataPayload: string;
-  releaseToken: string;
+  versionCheckPayload: string;
+  uniqueId: string;
 };
 
 /**

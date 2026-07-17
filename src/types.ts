@@ -41,7 +41,7 @@ export type Events = {
 export type Hotels = 'hhous' | 'hhoes' | 'hhobr';
 
 export type HostConfig = {
-  gamedataUrl: string;
+  extVarsUrl: string;
   host: string;
   port: number;
 };

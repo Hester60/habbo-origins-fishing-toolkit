@@ -70,16 +70,16 @@ describe('HabboHandshake', () => {
       decryptOutboundChunk(frame, ciphers.c2sHeader, ciphers.c2sData),
     );
 
-    const gameData = PacketParser.parse(decrypted[0]);
-    expect(gameData.header).toBe(OutgoingHeaders.GAMEDATA);
-    expect(gameData.body.toString('latin1')).toBe('HRL');
+    const versionCheck = PacketParser.parse(decrypted[0]);
+    expect(versionCheck.header).toBe(OutgoingHeaders.VERSIONCHECK);
+    expect(versionCheck.body.toString('latin1')).toBe('HRL');
 
-    const release = PacketParser.parse(decrypted[1]);
-    expect(release.header).toBe(OutgoingHeaders.RELEASE_TOKEN);
-    expect(readOutboundString(release.body, 0)[0]).toBe('PRODUCTION-000');
+    const uniqueId = PacketParser.parse(decrypted[1]);
+    expect(uniqueId.header).toBe(OutgoingHeaders.UNIQUEID);
+    expect(readOutboundString(uniqueId.body, 0)[0]).toBe('PRODUCTION-000');
 
-    const interstitial = PacketParser.parse(decrypted[2]);
-    expect(interstitial.header).toBe(OutgoingHeaders.INTERSTITIAL_SHOWN);
+    const getSessionParameters = PacketParser.parse(decrypted[2]);
+    expect(getSessionParameters.header).toBe(OutgoingHeaders.GET_SESSION_PARAMETERS);
 
     const login = PacketParser.parse(decrypted[3]);
     expect(login.header).toBe(OutgoingHeaders.LOGIN);

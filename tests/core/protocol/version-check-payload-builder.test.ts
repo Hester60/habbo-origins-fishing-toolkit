@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import GamedataPayloadBuilder from '../../../src/core/protocol/gamedata-payload-builder.js';
+import VersionCheckPayloadBuilder from '../../../src/core/protocol/version-check-payload-builder.js';
 
-describe('GameDataPayloadBuilder', () => {
+describe('VersionCheckPayloadBuilder', () => {
   it('matches the hand-verified 62-byte payload for version 330', () => {
     const url = 'http://origins-gamedata.habbo.com/external_variables/1';
 
-    const payload = GamedataPayloadBuilder.build(url, 330);
+    const payload = VersionCheckPayloadBuilder.build(url, 330);
 
     expect(payload).toEqual(
       Buffer.from([
@@ -21,8 +21,8 @@ describe('GameDataPayloadBuilder', () => {
   it('changing the version only changes the first bytes (the VL64 part)', () => {
     const url = 'http://origins-gamedata.habbo.com/external_variables/1';
 
-    const payload330 = GamedataPayloadBuilder.build(url, 330);
-    const payload331 = GamedataPayloadBuilder.build(url, 331);
+    const payload330 = VersionCheckPayloadBuilder.build(url, 330);
+    const payload331 = VersionCheckPayloadBuilder.build(url, 331);
 
     expect(payload330.subarray(3)).toEqual(payload331.subarray(3));
     expect(payload330.subarray(0, 3)).not.toEqual(payload331.subarray(0, 3));
